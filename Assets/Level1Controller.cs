@@ -8,12 +8,12 @@ public class Level1Controller : MonoBehaviour {
     public TextMesh playerText;
     public BoxCollider playerCollider;
 
-    public static bool dead=false;
+    public static bool dead = false;
 
     // Use this for initialization
     void Start() {
         //Set the player text
-        if (MainMenuController.PlayerName!=null && MainMenuController.PlayerName.Trim().Length > 0) {
+        if (MainMenuController.PlayerName != null && MainMenuController.PlayerName.Trim().Length > 0) {
             playerText.text = MainMenuController.PlayerName;
         } else {
             playerText.text = "Player";
@@ -32,6 +32,15 @@ public class Level1Controller : MonoBehaviour {
         if (dead && Input.GetKeyDown(KeyCode.Space)) {
             dead = false;
             SceneManager.LoadScene("Level1");
+        }
+        if (dead) {
+            //Check for new touch
+            foreach (Touch touch in Input.touches) {
+                if (touch.phase == TouchPhase.Began) {
+                    dead = false;
+                    SceneManager.LoadScene("Level1");
+                }
+            }
         }
 
         if (Input.GetKeyDown(KeyCode.Escape)) {
