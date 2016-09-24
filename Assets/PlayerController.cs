@@ -25,12 +25,20 @@ public class PlayerController : MonoBehaviour {
             return;
         }
 
+        vSpeed = Mathf.Max(-terminalVelocity, vSpeed - gravity);
+
         //Check for jump event
         if (Input.GetKeyDown(KeyCode.Space)) {
             vSpeed = jumpForce;
             Instantiate(flap, transform.position, new Quaternion());
-        }else {
-            vSpeed = Mathf.Max(-terminalVelocity, vSpeed - gravity);
+        }
+
+        //Check for new touch
+        foreach (Touch touch in Input.touches) {
+            if (touch.phase == TouchPhase.Began) {
+                vSpeed = jumpForce;
+                Instantiate(flap, transform.position, new Quaternion());
+            }
         }
 
         transform.Translate(0, vSpeed, 0);
